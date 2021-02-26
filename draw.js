@@ -3,9 +3,9 @@ const canvas = document.getElementById('pingpong');
 const ctx = canvas.getContext('2d');
 
 // 사운드 추가하기
-const hitSound = new Audio('../sounds/hitSound.wav');  // 공이 패들을 치면 소리나게
-const scoreSound = new Audio('../sounds/scoreSound.wav'); // 누군가 점수를 얻으면 소리나게
-const wallHitSound = new Audio('../sounds/wallHitSound.wav');  // 공이 상단이나 하단 벽에 닿으면 소리나게
+const hitSound = new Audio('../sound/hitSound.wav');  // 공이 패들을 치면 소리나게
+const scoreSound = new Audio('../sound/scoreSound.wav'); // 누군가 점수를 얻으면 소리나게
+const wallHitSound = new Audio('../sound/wallHitSound.wav');  // 공이 상단이나 하단 벽에 닿으면 소리나게
 
 // 추가적인 변수
 //네트
@@ -104,76 +104,44 @@ function render(){
     drawBall(ball.x, ball.y, ball.radius, ball.color);
 }
 
-// update 게임 업데이트
-function update(){
-    // 사용자 패들 움직임
-    // 컴퓨터 상에서 키 움직임 사용할 것
-    window.addEventListener('keydown', keyDownHandler);
-    window.addEventListener('keyup', keyUpHandler);
+// 사용자 패들 움직임
+// 컴퓨터 상에서 키 움직임 사용할 것
+window.addEventListener('keydown', keyDownHandler);
+window.addEventListener('keyup', keyUpHandler);
 
-    //아래방향 키를 눌렀을때
-    function keyDownHandler(event) {
-        // get the keyCode
-        switch (event.keyCode) {
-          // "up arrow" key
-          case 38:
-            // set upArrowPressed = true
-            upArrowPressed = true;
-            break;
-          // "down arrow" key
-          case 40:
-            downArrowPressed = true;
-            break;
-        }
-      }
+//아래방향 키를 눌렀을때
+function keyDownHandler(event) {
+    // get the keyCode
+    switch (event.keyCode) {
+        // "up arrow" key
+        case 38:
+        // set upArrowPressed = true
+        upArrowPressed = true;
+        break;
+        // "down arrow" key
+        case 40:
+        downArrowPressed = true;
+        break;
+    }
+}
 
-      //위에방향 키를 눌렀을때
-      function keyUpHandler(event) {
-        switch (event.keyCode) {
-          // "up arraow" key
-          case 38:
-            upArrowPressed = false;
-            break;
-          // "down arrow" key
-          case 40:
-            downArrowPressed = false;
-            break;
-        }
-      }
+//위에방향 키를 눌렀을때
+function keyUpHandler(event) {
+    switch (event.keyCode) {
+        // "up arraow" key
+        case 38:
+        upArrowPressed = false;
+        break;
+        // "down arrow" key
+        case 40:
+        downArrowPressed = false;
+        break;
+    }
+}
 
-    // 패들 이동하기 
-    if (upArrowPressed && user.y > 0) {
-        user.y -= 8;
-      } else if (downArrowPressed && (user.y < canvas.height - user.height)) {
-        user.y += 8;
-      }
-
-    // 공 충돌감지
-    if (ball.y + ball.radius >= canvas.height || ball.y - ball.radius <= 0) {
-    // play 벽에 부딪히는 소리
-
-    ball.velocityY = -ball.velocityY;
-  }
-
-   // 만약 공이 오른쪽 벽에 부딪힐때
-   if (ball.x + ball.radius >= canvas.width) {
-    // play scoreSound
-
-    // 사용자 스코어가 1점 오른다.
-    user.score += 1;
-    reset();
-  }
-
-  // 만약 공이  왼쪽 벽에 부딪힐때
-  if (ball.x - ball.radius <= 0) {
-    // play scoreSound
-
-    // 컴퓨터 스코어가 1점 오른다.
-    com.score += 1;
-    reset();
-  }
 // 공 자리 리셋시키기
 function reset() {
+    //공을 이전 값으로 되돌린다.
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
     ball.speed = 7;
@@ -181,8 +149,7 @@ function reset() {
     // 턴마다 공자리를 바꾼다.
     ball.velocityX = -ball.velocityX;
     ball.velocityY = -ball.velocityY;
-  }
-
+}
 // 공과 패들 충돌감지
 // 공이 패들에 닿으면 true / 그렇지 않으면 false 반환
 function collisionDetect(player, ball) {
@@ -198,8 +165,40 @@ function collisionDetect(player, ball) {
     ball.left = ball.x - ball.radius;
   
     return ball.left < player.right && ball.top < player.bottom && ball.right > player.left && ball.bottom > player.top;
-  }
+}
 
+function update() {
+    // 패들 이동하기 
+    if (upArrowPressed && user.y > 0) {
+        user.y -= 8;
+    } else if (downArrowPressed && (user.y < canvas.height - user.height)) {
+        user.y += 8;
+    }
+
+    // 공 충돌감지
+    if (ball.y + ball.radius >= canvas.height || ball.y - ball.radius <= 0) {
+    // play 벽에 부딪히는 소리
+    wallHitSound.play();
+    ball.velocityY = -ball.velocityY;
+    }
+
+    // 만약 공이 오른쪽 벽에 부딪힐때
+    if (ball.x + ball.radius >= canvas.width) {
+    // play scoreSound
+    scoreSound.play();
+    // 사용자 스코어가 1점 오른다.
+    user.score += 1;
+    reset();
+    }
+
+    // 만약 공이  왼쪽 벽에 부딪힐때
+    if (ball.x - ball.radius <= 0) {
+    // play scoreSound
+    scoreSound.play();
+    // 컴퓨터 스코어가 1점 오른다.
+    com.score += 1;
+    reset();
+    }
     // 공 움직임 기본셋팅 - 공을 아래쪽으로 움직이게 설정
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
@@ -212,7 +211,7 @@ let player = (ball.x < canvas.width / 2) ? user : com;
 
   if (collisionDetect(player, ball)) {
     // 부딪히는 소리
-
+    hitSound.play();
     // 각도는 0으로 기본셋팅
     let angle = 0;
 
