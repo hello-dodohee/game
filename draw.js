@@ -100,12 +100,68 @@ function render(){
     drawBall(ball.x, ball.y, ball.radius, ball.color);
 }
 
+// update 게임 업데이트
+function update(){
+    // 사용자 패들 움직임
+    // 컴퓨터 상에서 키 움직임 사용할 것
+    window.addEventListener('keydown', keyDownHandler);
+    window.addEventListener('keyup', keyUpHandler);
+
+    //아래방향 키를 눌렀을때
+    function keyDownHandler(event) {
+        // get the keyCode
+        switch (event.keyCode) {
+          // "up arrow" key
+          case 38:
+            // set upArrowPressed = true
+            upArrowPressed = true;
+            break;
+          // "down arrow" key
+          case 40:
+            downArrowPressed = true;
+            break;
+        }
+      }
+
+      //위에방향 키를 눌렀을때
+      function keyUpHandler(event) {
+        switch (event.keyCode) {
+          // "up arraow" key
+          case 38:
+            upArrowPressed = false;
+            break;
+          // "down arrow" key
+          case 40:
+            downArrowPressed = false;
+            break;
+        }
+      }
+
+    // 패들 이동하기 
+    if (upArrowPressed && user.y > 0) {
+        user.y -= 8;
+      } else if (downArrowPressed && (user.y < canvas.height - user.height)) {
+        user.y += 8;
+      }
+
+    // 공 충돌감지
+    
+
+    // 공 움직임
+    //1. 공을 아래쪽으로 움직이게 설정
+    ball.x += ball.velocityX;
+    ball.y += ball.velocityY;
+
+    // 컴퓨터 패들 움직임
+
+    //
+}
+
 
 // 게임루프 생성 전체 흐름제어
 
 function gameLoop(){
-
-
+    update(); // 게임 업데이트
     render(); //게임 보드 나타내기
 }
 
