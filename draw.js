@@ -95,6 +95,16 @@ function drawBall(x,y,radius,color){
 window.addEventListener('keydown', keyDownHandler);
 window.addEventListener('keyup', keyUpHandler);
 
+//캔버스 안에서만 마우스무빙
+canvas.addEventListener('mousemove', mouseMoving);
+
+//마우스 무빙으로 패들움직이기
+function mouseMoving(event) {
+  let rect = canvas.getBoundingClientRect();
+  user.y = event.clientY - rect.top - user.height / 2;
+  console.log(event.clientY);
+}
+
 //아래방향 키를 눌렀을때
 function keyDownHandler(event) {
     // get the keyCode
