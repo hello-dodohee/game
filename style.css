@@ -3,10 +3,15 @@
     padding:0;
 }
 body{
-   background-color:dimgray;
+   background-color:#E8E4DB;
    width:100vw;
    height:100vh;
    display:flex;
+   justify-content:center;
+   align-items:center;
+}
+h1{
+    display:flex;
    justify-content:center;
    align-items:center;
 }

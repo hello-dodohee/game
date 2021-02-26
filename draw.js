@@ -26,7 +26,7 @@ const net = {
     y : 0,
     width: netWidth,
     height: netHeight,
-    color: "#fff"
+    color: "#F2EFE9"
 };
 
 //패들 - 사용자
@@ -35,7 +35,7 @@ const user = {
     y : canvas.height / 2 - paddleHeight / 2,
     width : paddleWidth,
     height: paddleHeight,
-    color: "fff",
+    color: "#F2EFE9",
     score : 0
 };
 
@@ -45,7 +45,7 @@ const com = {
     y : canvas.height / 2 - paddleHeight / 2,
     width : paddleWidth,
     height: paddleHeight,
-    color: "fff",
+    color: "#F2EFE9",
     score : 0
 };
 
@@ -57,7 +57,7 @@ const ball = {
     speed : 7,
     velocityX : 5,
     velocityY : 5,
-    color: "#05EDFF"
+    color: "#737155"
 };
 
 // 개체 생성 끝
@@ -71,7 +71,7 @@ function drawNet(){
 
 //객체 기능 - 스코어 생성
 function drawScore(x, y, score){
-    ctx.fillStyle = "#fff";
+    ctx.fillStyle = "#F2EFE9";
     ctx.font = '35px sans-serif';
     ctx.fillText(score, x, y);
 }
@@ -232,7 +232,7 @@ let player = (ball.x < canvas.width / 2) ? user : com;
 //rander 게임 보드에 그림그리기
 
 function render(){
-    ctx.fillStyle = "#000";
+    ctx.fillStyle = "#BFB38F";
     ctx.fillRect(0,0,canvas.clientWidth, canvas.height);
     drawNet();
     drawScore(canvas.width / 4, canvas.height / 6, user.score);
