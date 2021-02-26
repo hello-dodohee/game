@@ -90,20 +90,6 @@ function drawBall(x,y,radius,color){
     ctx.fill();
 }
 
-
-//rander 게임 보드에 그림그리기
-
-function render(){
-    ctx.fillStyle = "#000";
-    ctx.fillRect(0,0,canvas.clientWidth, canvas.height);
-    drawNet();
-    drawScore(canvas.width / 4, canvas.height / 6, user.score);
-    drawScore(3 * canvas.width / 4, canvas.height / 6, com.score);
-    drawPaddle(user.x, user.y, user.width, user.height, user.color);
-    drawPaddle(com.x, com.y, com.width, com.height, com.color);
-    drawBall(ball.x, ball.y, ball.radius, ball.color);
-}
-
 // 사용자 패들 움직임
 // 컴퓨터 상에서 키 움직임 사용할 것
 window.addEventListener('keydown', keyDownHandler);
@@ -233,6 +219,18 @@ let player = (ball.x < canvas.width / 2) ? user : com;
   }
 }
 
+//rander 게임 보드에 그림그리기
+
+function render(){
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0,0,canvas.clientWidth, canvas.height);
+    drawNet();
+    drawScore(canvas.width / 4, canvas.height / 6, user.score);
+    drawScore(3 * canvas.width / 4, canvas.height / 6, com.score);
+    drawPaddle(user.x, user.y, user.width, user.height, user.color);
+    drawPaddle(com.x, com.y, com.width, com.height, com.color);
+    drawBall(ball.x, ball.y, ball.radius, ball.color);
+}
 
 // 게임루프 생성 전체 흐름제어
 
