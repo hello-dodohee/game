@@ -140,7 +140,7 @@ function reset() {
     //공을 이전 값으로 되돌린다.
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
-    ball.speed = 7;
+    ball.speed = 9; //기본값 7
   
     // 턴마다 공자리를 바꾼다.
     ball.velocityX = -ball.velocityX;
@@ -194,13 +194,16 @@ function update() {
     // 컴퓨터 스코어가 1점 오른다.
     com.score += 1;
     reset();
+    } else if(com.score > 9) {
+        alert("GAME OVER");
+        document.location.reload();
     }
     // 공 움직임 기본셋팅 - 공을 아래쪽으로 움직이게 설정
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
 
-    // 컴퓨터 패들 움직임
-    com.y += ((ball.y - (com.y + com.height / 2))) * 0.09;
+    // 컴퓨터 패들 움직임 기본값 - 0.09
+    com.y += ((ball.y - (com.y + com.height / 2))) * 0.12;
     //
 
 let player = (ball.x < canvas.width / 2) ? user : com;
@@ -224,8 +227,8 @@ let player = (ball.x < canvas.width / 2) ? user : com;
     ball.velocityX = (player === user ? 1 : -1) * ball.speed * Math.cos(angle);
     ball.velocityY = ball.speed * Math.sin(angle);
 
-    // 공 속도 증가
-    ball.speed += 0.2;
+    // 공 속도 증가 기본값 - 0.2
+    ball.speed += 0.3;
   }
 }
 
@@ -247,6 +250,7 @@ function render(){
 function gameLoop(){
     update(); // 게임 업데이트
     render(); //게임 보드 나타내기
+//gameover(); // 게임 오버 나타내기
 }
 
 setInterval(gameLoop, 1000 / 60);
